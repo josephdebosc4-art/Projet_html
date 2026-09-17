@@ -1,25 +1,21 @@
 <?php
-$pays = isset($_GET['pays']) ? $_GET['pays'] : '';
-if ($pays === '1) {
-  header('Location: apprenti.html');
-  exit;
-} else {
-  echo '<p>Vous devez sélectionner "Apprenti" pour continuer.</p>';
-  echo '<p><a href="index.html">Retour</a></p>';
-}
+$informations = isset($_GET['informations']) ? $_GET['informations'] : '';
 
-if ($pays === '2') {
-  header('Location: tuteur_ecole.html');
-  exit;
-} else {
-  echo '<p>Vous devez sélectionner "Tuteur école" pour continuer.</p>';
-  echo '<p><a href="index.html">Retour</a></p>';
-}
+switch ($informations) {
+    case '1':
+        header('Location: apprenti.html');
+        exit;
 
-if ($pays === '3') {
-  header('Location: tuteur_entreprise.html');
-  exit;
-} else {
-  echo '<p>Vous devez sélectionner "Tuteur entreprise" pour continuer.</p>';
-  echo '<p><a href="index.html">Retour</a></p>';
+    case '2':
+        header('Location: tuteur_ecole.html');
+        exit;
+
+    case '3':
+        header('Location: tuteur_entreprise.html');
+        exit;
+
+    default:
+        echo '<p>Veuillez sélectionner un rôle valide pour continuer.</p>';
+        echo '<p><a href="index.html">Retour</a></p>';
+        exit;
 }
