@@ -1,0 +1,19 @@
+/uploads/*
+!/uploads/.htaccess
+/tmp/
+/runtime/
+/.sites-runtime/
+.env
+/CampusLink.zip
+/Jeu_de_test.zip
+/identifiants-demo.txt
+*.log
+
+# Documents et fichiers de travail conservés uniquement en local.
+/conception/
+/output/
+/.github/
+/*.md
+/*.txt
+/tools/*
+/compose.php
