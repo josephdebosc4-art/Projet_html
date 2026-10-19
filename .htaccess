@@ -1,0 +1,9 @@
+Options -Indexes
+RewriteEngine On
+
+RewriteRule ^$ - [L]
+RewriteRule ^(index|register|login|logout|dashboard|conversation|compose|message|delete_message|download|mailbox)\.php$ - [L]
+RewriteRule ^(new_conversation|close_conversation)\.php$ - [L]
+RewriteRule ^admin/(users|teams|team_form|team_delete)\.php$ - [L]
+RewriteRule ^assets/(style\.css|favicon\.svg)$ - [L]
+RewriteRule . - [F,L]
