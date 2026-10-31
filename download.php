@@ -13,3 +13,18 @@ $fileId = filter_input(INPUT_GET, 'file', FILTER_VALIDATE_INT) ?: 0;
 $stmt = $pdo->prepare('SELECT stored_name, original_name FROM message_attachments WHERE message_id = ? AND (? = 0 OR id = ?) ORDER BY id LIMIT 1');
 $stmt->execute([$messageId, $fileId, $fileId]);
 $attachment = $stmt->fetch();
+$storedName = basename((string) ($attachment['stored_name'] ?? ''));
+$path = UPLOAD_DIR . '/' . $storedName;
+
+if (!$storedName || !is_file($path)) {
+    http_response_code(404);
+    exit('Document introuvable.');
+}
+
+$downloadName = (string) ($attachment['original_name'] ?: 'document.pdf');
+header('Content-Type: application/pdf');
+header('Content-Length: ' . filesize($path));
+header("Content-Disposition: attachment; filename=\"document.pdf\"; filename*=UTF-8''" . rawurlencode($downloadName));
+header('X-Content-Type-Options: nosniff');
+readfile($path);
+exit;
