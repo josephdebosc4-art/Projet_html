@@ -27,3 +27,32 @@ require __DIR__ . '/partials/header.php';
     <?php if (!$sent): ?>
         <?php $unread = count(array_filter($messages, fn($message) => $message['read_at'] === null)); ?>
         <p><?= $unread ?> message<?= $unread > 1 ? 's' : '' ?> non lu<?= $unread > 1 ? 's' : '' ?>. Les nouveaux messages sont placés en premier.</p>
+    <?php endif; ?>
+    <?php if (!$messages): ?>
+        <p>Aucun message pour le moment.</p>
+    <?php else: ?>
+        <div class="table-responsive bg-white border rounded">
+            <table class="table message-table">
+                <thead><tr><th>Titre</th><th><?= $sent ? 'Destinataires' : 'Expéditeur' ?></th><th>Catégorie</th><th>Date d’envoi</th><th><?= $sent ? 'Lectures' : 'État' ?></th></tr></thead>
+                <tbody>
+                <?php foreach ($messages as $message): ?>
+                    <tr class="<?= !$sent && $message['read_at'] === null ? 'message-row-unread' : '' ?>">
+                        <td><a href="<?= e(url('message.php?id=' . $message['id'])) ?>"><?= e($message['subject']) ?></a></td>
+                        <td data-label="<?= $sent ? 'À' : 'De' ?>"><?= e($sent ? $message['recipients'] : $message['sender_name']) ?></td>
+                        <td data-label="Catégorie"><?= e(category_label($message['category'])) ?></td>
+                        <td data-label="Date"><?= e(format_date($message['created_at'])) ?></td>
+                        <td data-label="<?= $sent ? 'Lectures' : 'État' ?>">
+                            <?php if ($sent): ?>
+                                <?= (int) $message['read_count'] ?>/<?= (int) $message['recipient_count'] ?>
+                            <?php else: ?>
+                                <span class="badge <?= $message['read_at'] === null ? 'text-bg-primary' : 'text-bg-light' ?>"><?= $message['read_at'] === null ? 'Non lu' : 'Lu' ?></span>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    <?php endif; ?>
+</div>
+<?php require __DIR__ . '/partials/footer.php'; ?>
