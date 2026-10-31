@@ -44,3 +44,49 @@ if (is_post()) {
             foreach ([(int) $user['id'], ...$chosenRecipients] as $memberId) $stmt->execute([$conversationId, $memberId]);
             $pdo->commit();
             redirect('conversation.php?id=' . $conversationId);
+        } catch (Throwable $exception) {
+            $pdo->rollBack();
+            throw $exception;
+        }
+    }
+}
+
+$pageTitle = 'Nouvelle discussion';
+require __DIR__ . '/partials/header.php';
+?>
+<div class="container py-5">
+    <div class="row justify-content-center"><div class="col-lg-7">
+        <div class="panel-card">
+            <h1 class="h2 mb-2">Nouvelle discussion</h1>
+            <p class="text-secondary">Équipe de <?= e($team['apprentice_name']) ?>. Choisissez à qui vous souhaitez parler.</p>
+            <?php if ($errors): ?><div class="alert alert-danger"><ul class="mb-0"><?php foreach ($errors as $error): ?><li><?= e($error) ?></li><?php endforeach; ?></ul></div><?php endif; ?>
+            <form method="post">
+                <?= csrf_field() ?>
+                <fieldset class="mb-3">
+                    <legend class="form-label required fs-6">Destinataires (un ou deux)</legend>
+                    <?php foreach ($contacts as $contact): ?>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="recipients[]" id="recipient-<?= (int) $contact['id'] ?>" value="<?= (int) $contact['id'] ?>" <?= in_array((int) $contact['id'], $chosenRecipients, true) ? 'checked' : '' ?>>
+                            <label class="form-check-label" for="recipient-<?= (int) $contact['id'] ?>"><?= e($contact['name']) ?> — <?= e(role_label($contact['role'])) ?></label>
+                        </div>
+                    <?php endforeach; ?>
+                </fieldset>
+                <div class="mb-3">
+                    <label for="subject" class="form-label required">Objet</label>
+                    <input id="subject" name="subject" class="form-control" maxlength="120" required value="<?= e($subject) ?>" placeholder="Ex. Point sur le projet">
+                </div>
+                <div class="mb-4">
+                    <label for="category" class="form-label">Catégorie</label>
+                    <select id="category" name="category" class="form-select">
+                        <?php foreach (['suivi', 'information', 'rendez-vous', 'autre'] as $choice): ?>
+                            <option value="<?= e($choice) ?>" <?= $category === $choice ? 'selected' : '' ?>><?= e(category_label($choice)) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <button class="btn btn-primary" type="submit">Créer la discussion</button>
+                <a class="btn btn-link" href="<?= e(url('dashboard.php')) ?>">Annuler</a>
+            </form>
+        </div>
+    </div></div>
+</div>
+<?php require __DIR__ . '/partials/footer.php'; ?>
