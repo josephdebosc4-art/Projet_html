@@ -40,3 +40,44 @@ if ($user['role'] !== 'pending') {
     unset($team);
 }
 
+$pageTitle = 'Discussions';
+require __DIR__ . '/partials/header.php';
+?>
+<div class="container py-5">
+    <h1 class="h2 mb-4">Discussions</h1>
+    <?php if ($user['role'] === 'pending'): ?>
+        <p>Votre compte est en attente. Un administrateur doit vous attribuer un rôle et vous placer dans une équipe.</p>
+    <?php elseif (!$teams): ?>
+        <p>Vous n'êtes pas encore dans une équipe.</p>
+    <?php else: ?>
+        <?php foreach ($teams as $team): ?>
+            <section class="panel-card mb-4">
+                <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
+                    <div>
+                        <h2 class="h4 mb-1">Équipe de <?= e($team['apprentice_name']) ?></h2>
+                        <div class="text-secondary small"><?= e($team['school_name']) ?> · <?= e($team['company_name']) ?></div>
+                    </div>
+                    <a class="btn btn-primary" href="<?= e(url('new_conversation.php?team_id=' . $team['id'])) ?>">Nouvelle discussion</a>
+                </div>
+                <?php if (!$team['conversations']): ?>
+                    <p class="mb-0">Aucune discussion pour cette équipe.</p>
+                <?php else: ?>
+                    <div class="list-group">
+                        <?php foreach ($team['conversations'] as $conversation): ?>
+                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center gap-3" href="<?= e(url('conversation.php?id=' . $conversation['id'])) ?>">
+                                <span>
+                                    <strong><?= e($conversation['subject']) ?></strong><br>
+                                    <small class="text-secondary"><?= e(category_label($conversation['category'])) ?> · <?= $conversation['closed_at'] ? 'Close' : 'Ouverte' ?></small>
+                                </span>
+                                <?php if ((int) $conversation['unread_count'] > 0): ?>
+                                    <span class="badge text-bg-primary"><?= (int) $conversation['unread_count'] ?> non lu<?= (int) $conversation['unread_count'] > 1 ? 's' : '' ?></span>
+                                <?php endif; ?>
+                            </a>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+            </section>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</div>
+<?php require __DIR__ . '/partials/footer.php'; ?>
