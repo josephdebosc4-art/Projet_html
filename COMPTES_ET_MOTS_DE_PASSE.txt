@@ -1,0 +1,58 @@
+COMPTES DU SITE DE SUIVI DES APPRENTIS
+
+Ces identifiants servent à se connecter AU SITE, avec l'adresse e-mail.
+
+Adresse du site sur le serveur de l'école : à compléter après déploiement.
+
+HUIT COMPTES DE DÉMONSTRATION
+Le mot de passe des huit comptes a été vérifié en local : password
+
+ID 1
+Nom : Admin CampusLink
+Rôle : Administrateur
+Identifiant : admin@esigelec.fr
+Mot de passe : password
+
+ID 2
+Nom : Alice Martin
+Rôle : Apprentie
+Identifiant : alice.apprentie@example.fr
+Mot de passe : password
+
+ID 3
+Nom : Marc Dupont
+Rôle : Tuteur école
+Identifiant : marc.ecole@example.fr
+Mot de passe : password
+
+ID 4
+Nom : Sophie Bernard
+Rôle : Tuteur entreprise
+Identifiant : sophie.entreprise@example.fr
+Mot de passe : password
+
+ID 5
+Nom : Hugo Leroy
+Rôle : Apprenti
+Identifiant : hugo.apprenti@example.fr
+Mot de passe : password
+
+ID 6
+Nom : Claire Robert
+Rôle : Tuteur école
+Identifiant : claire.ecole@example.fr
+Mot de passe : password
+
+ID 7
+Nom : Paul Petit
+Rôle : Tuteur entreprise
+Identifiant : paul.entreprise@example.fr
+Mot de passe : password
+
+ID 8
+Nom : Camille Nouveau
+Rôle : En attente d'attribution d'un rôle
+Identifiant : camille.attente@example.fr
+Mot de passe : password
+
+
